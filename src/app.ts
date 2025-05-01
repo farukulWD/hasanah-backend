@@ -3,6 +3,7 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import httpStatus from "http-status";
 import router from "./app/routes/routes";
+import AppError from "./app/errors/AppError";
 
 const app: Application = express();
 
@@ -15,22 +16,22 @@ const allowedOrigins = [
     "http://localhost:3001",
 ]
 
-// app.use(
-//     cors({
-//       origin: (origin, callback) => {
+app.use(
+    cors({
+      origin: (origin, callback) => {
         
-//         if (!origin || allowedOrigins.includes(origin)) {
-//           callback(null, true);
-//         } else {
-//           callback(new AppError(httpStatus.BAD_GATEWAY, 'Not allowed by CORS'));
-//         }
-//       },
-//       credentials: true,
-//     })
-//   );
+        if (!origin || allowedOrigins.includes(origin)) {
+          callback(null, true);
+        } else {
+          callback(new AppError(httpStatus.BAD_GATEWAY, 'Not allowed by CORS'));
+        }
+      },
+      credentials: true,
+    })
+  );
 
 
-app.use(cors());
+
 
 app.use(cookieParser());
 app.use(express.json());
