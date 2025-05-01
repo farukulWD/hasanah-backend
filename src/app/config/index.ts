@@ -19,4 +19,6 @@ export default {
   MULTER_CLOUD_NAME: process.env.MULTER_CLOUD_NAME,
   MULTER_API_KEY: process.env.MULTER_API_KEY,
   MULTER_API_SECRET: process.env.MULTER_API_SECRET,
+  BYCRIPT_SALT_ROUNDS: process.env.BYCRYPT_SALT_ROUNDS,
+  
 };

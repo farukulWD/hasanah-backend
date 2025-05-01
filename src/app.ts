@@ -5,42 +5,33 @@ import httpStatus from "http-status";
 import router from "./app/routes/routes";
 import AppError from "./app/errors/AppError";
 import notFound from "./app/middlewares/notFound";
+import globalErrorHandler from "./app/middlewares/globalErrorhandler";
 
 const app: Application = express();
-
 
 // Middleware
 
 // CORS
-const allowedOrigins = [
-  "http://localhost:3000",
-    "http://localhost:3001",
-]
+const allowedOrigins = ["http://localhost:3000", "http://localhost:3001"];
 
 app.use(
-    cors({
-      origin: (origin, callback) => {
-        
-        if (!origin || allowedOrigins.includes(origin)) {
-          callback(null, true);
-        } else {
-          callback(new AppError(httpStatus.BAD_GATEWAY, 'Not allowed by CORS'));
-        }
-      },
-      credentials: true,
-    })
-  );
-
-
-
+  cors({
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new AppError(httpStatus.BAD_GATEWAY, "Not allowed by CORS"));
+      }
+    },
+    credentials: true,
+  })
+);
 
 app.use(cookieParser());
 app.use(express.json());
-app.use('/api/v1', router);
+app.use("/api/v1", router);
+app.use(globalErrorHandler);
 
-app.use(notFound)
-
+app.use(notFound);
 
 export default app;
-
-
