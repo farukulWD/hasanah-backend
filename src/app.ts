@@ -4,6 +4,7 @@ import cookieParser from "cookie-parser";
 import httpStatus from "http-status";
 import router from "./app/routes/routes";
 import AppError from "./app/errors/AppError";
+import notFound from "./app/middlewares/notFound";
 
 const app: Application = express();
 
@@ -36,6 +37,8 @@ app.use(
 app.use(cookieParser());
 app.use(express.json());
 app.use('/api/v1', router);
+
+app.use(notFound)
 
 
 export default app;
