@@ -26,7 +26,6 @@ const createUserService = async (userData: IUser) => {
   return user;
 };
 
-
 const getAllUsersService = async () => {
   const users = await User.find({}).select("-password").lean();
   if (!users) {
@@ -34,7 +33,6 @@ const getAllUsersService = async () => {
   }
   return users;
 };
-
 
 const getSingleUserService = async (userId: string) => {
   if (!userId) {
@@ -44,10 +42,9 @@ const getSingleUserService = async (userId: string) => {
   const user = await User.findById(userId).select("-password").lean();
   if (!user) {
     throw new AppError(httpStatus.NOT_FOUND, "User not found");
-  } 
-    return user;
-}
-
+  }
+  return user;
+};
 
 const updateUserService = async (userId: string, userData: IUser) => {
   if (!userId) {
@@ -61,7 +58,9 @@ const updateUserService = async (userId: string, userData: IUser) => {
   const user = await User.findByIdAndUpdate(userId, userData, {
     new: true,
     runValidators: true,
-  }).select("-password").lean();
+  })
+    .select("-password")
+    .lean();
 
   if (!user) {
     throw new AppError(httpStatus.NOT_FOUND, "User not found");
@@ -74,16 +73,18 @@ const deleteUserService = async (userId: string) => {
     throw new AppError(httpStatus.BAD_REQUEST, "User ID is required");
   }
 
-  const user = await User.findByIdAndDelete(userId).select("-password").lean();
+  const user = await User.findByIdAndUpdate(
+    userId,
+    { isDeleted: true },
+    { new: true, runValidators: true }
+  )
+    .select("-password")
+    .lean();
   if (!user) {
     throw new AppError(httpStatus.NOT_FOUND, "User not found");
   }
   return user;
 };
-
-
-
-
 
 export const userServices = {
   createUserService,
@@ -92,4 +93,3 @@ export const userServices = {
   updateUserService,
   deleteUserService,
 };
-

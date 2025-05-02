@@ -7,8 +7,12 @@ export interface IUser extends Document {
   email: string;
   mobile: string;
   password: string;
+  
+  isDeleted?: boolean;
   role?: "admin" | "user" | "superAdmin";
   status?: "active" | "inactive";
+  isEmailVerified?: boolean;
+  isMobileVerified?: boolean;
   createdAt?: Date;
   updatedAt?: Date;
 }
