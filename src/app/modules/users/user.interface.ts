@@ -13,6 +13,9 @@ export interface IUser extends Document {
   status?: "active" | "inactive";
   isEmailVerified?: boolean;
   isMobileVerified?: boolean;
+  otp?: string;
+  otpExpire?: Date;
+  refreshToken?: string;
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -24,6 +27,9 @@ export interface UserModel extends Model<IUser> {
     plainTextPassword: string,
     hashedPassword: string
   ): Promise<boolean>;
+
+
+  hashPassword(plainTextPassword: string): Promise<string>;
 }
 
 export type TUserRole = keyof typeof USER_ROLE;

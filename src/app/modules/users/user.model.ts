@@ -45,6 +45,18 @@ const userSchema = new Schema<IUser, UserModel>(
       type: Boolean,
       default: false,
     },
+    refreshToken: {
+      type: String,
+      select: false,
+    },
+    otp: {
+      type: String,
+      select: false,
+    },
+    otpExpire: {
+      type: Date,
+      select: false,
+    },
     role: {
       type: String,
       enum: ["admin", "user", "superAdmin"],
@@ -69,6 +81,9 @@ userSchema.pre("save", async function (next) {
 });
 // Static method to find user by mobile number or email, check if props is email then find by email otherwise find by mobile number
 userSchema.statics.userFindByEmailOrMobile = async function (value: string) {
+  if (!value) {
+    throw new Error("Value is required to find user by email or mobile.");
+  }
   const user = await this.findOne({
     $or: [{ email: value }, { mobile: value }],
   }).select("+password");
@@ -81,6 +96,15 @@ userSchema.statics.isPasswordMatched = async function (
 ) {
   return await bcrypt.compare(plainTextPassword, hashedPassword);
 };
+
+
+// static method to hash password before saving
+userSchema.statics.hashPassword = async function (password: string) {
+  if (!password) {
+    throw new Error("Password is required to hash.");
+  }
+  return await bcrypt.hash(password, Number(config.BYCRIPT_SALT_ROUNDS));
+}
 
 export const User = mongoose.model<IUser, UserModel>(
   "User",

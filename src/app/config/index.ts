@@ -20,5 +20,6 @@ export default {
   MULTER_API_KEY: process.env.MULTER_API_KEY,
   MULTER_API_SECRET: process.env.MULTER_API_SECRET,
   BYCRIPT_SALT_ROUNDS: process.env.BYCRYPT_SALT_ROUNDS,
+  CLIENT_URL: process.env.CLIENT_URL,
   
 };
