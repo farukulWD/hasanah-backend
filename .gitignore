@@ -7,3 +7,4 @@ yarn.lock
 .env
 coverage
 logs
+uploads
