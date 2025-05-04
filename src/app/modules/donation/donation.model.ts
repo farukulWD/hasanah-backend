@@ -1,13 +1,14 @@
 import mongoose, { model, Schema } from "mongoose";
+import { IDonation } from "./donation.interface";
 
-const donationSchema = new Schema(
+const donationSchema = new Schema<IDonation>(
   {
     donorName: { type: String },
-    donorEmail: { type: String },
+    donorEmailOrPhone: { type: String, required: true },
     amount: { type: Number, required: true },
     purpose: { type: String },
     projectId: { type: mongoose.Schema.Types.ObjectId, ref: "Project" },
-    paymentId: { type: String },
+    transactionId: { type: String, required: true },
     status: {
       type: String,
       enum: ["pending", "completed", "failed"],
@@ -17,4 +18,4 @@ const donationSchema = new Schema(
   { timestamps: true }
 );
 
-module.exports = model("Donation", donationSchema);
+export const Donation = model<IDonation>("Donation", donationSchema);

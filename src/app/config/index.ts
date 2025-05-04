@@ -23,6 +23,6 @@ export default {
   CLIENT_URL: process.env.CLIENT_URL,
   // sslEcommace
   store_id: process.env.store_id,
-  store_passwd: process.env.store_password,
+  store_passwd: process.env.store_passwd,
   is_live: process.env.is_live,
 };
