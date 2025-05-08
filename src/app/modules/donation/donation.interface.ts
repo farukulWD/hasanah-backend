@@ -8,7 +8,7 @@ export interface IDonation extends Document {
   purpose?: string;
   projectId: Schema.Types.ObjectId;
   transactionId?: string;
-  status?: "pending" | "completed" | "failed";
+  status?: "pending" | "completed" | "failed"|"cancel";
   createdAt?: Date;
   updatedAt?: Date;
 }

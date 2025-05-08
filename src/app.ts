@@ -6,18 +6,24 @@ import router from "./app/routes/routes";
 import AppError from "./app/errors/AppError";
 import notFound from "./app/middlewares/notFound";
 import globalErrorHandler from "./app/middlewares/globalErrorhandler";
+import config from "./app/config";
 
 const app: Application = express();
 
 // Middleware
 
 // CORS
-const allowedOrigins = ["http://localhost:3000", "http://localhost:3001"];
+const allowedOrigins = [
+  "http://localhost:3000",
+  "http://localhost:3001",
+  `http://localhost:${config.PORT}`,
+];
 
 app.use(
   cors({
     origin: (origin, callback) => {
-      if (!origin || allowedOrigins.includes(origin)) {
+      console.log({ origin });
+      if (  !origin || allowedOrigins.includes(origin)||origin === "null") {
         callback(null, true);
       } else {
         callback(new AppError(httpStatus.BAD_GATEWAY, "Not allowed by CORS"));

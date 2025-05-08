@@ -11,7 +11,7 @@ const donationSchema = new Schema<IDonation>(
     transactionId: { type: String, required: true },
     status: {
       type: String,
-      enum: ["pending", "completed", "failed"],
+      enum: ["pending", "completed", "failed", "cancel"],
       default: "pending",
     },
   },
